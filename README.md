@@ -1,4 +1,4 @@
-# Distributed Systems and Parallel Programming [DISPARP]
+# [DISPARP] Distributed Systems and Parallel Programming - Coursework Project
 > University of Portsmouth, Year 3 Coursework
 
 ## Many-time Pad Reuse brute-forcing
@@ -40,6 +40,7 @@ Using `worker_threads`, threads are spawned according to the argument given to `
 |  1  |      6533     |      3604      |      1787      |
 |  2  |      6730     |      3623      |      1846      |
 |  3  |      6529     |      3801      |      1754      |
+
 ### Threaded
 | Run | 1 Thread (ms) | 2 Threads (ms) | 4 Threads (ms) | 8 Threads (ms) |
 |-----|---------------|----------------|----------------|----------------|
