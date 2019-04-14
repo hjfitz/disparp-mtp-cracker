@@ -2,8 +2,8 @@ import http from 'http'
 import socketIO from 'socket.io'
 import * as perfy from 'perfy'
 
-import {workerInfo} from './shared'
-import xor, {decodeHex} from './crypto'
+import {workerInfo} from '../shared'
+import xor, {decodeHex} from '../crypto'
 
 const HTTPPORT: number = 5000
 const MAXCLIENTS: number = parseInt(process.argv[2], 10) || 2
@@ -19,13 +19,14 @@ const io: socketIO.Server = socketIO(server, { path: '/', serveClient: false })
 
 console.log(`beginning distributed session expecting ${MAXCLIENTS} nodes`)
 
-io.on('connection', (socket: socketIO.Socket) => {
+io.on('connection', (socket: socketIO.Socket): void => {
 	console.log(`socket connected: ${socket.id}`)
 	const totalConnected: number = Object.keys(io.sockets.sockets).length
 	console.log(`total conected: ${totalConnected}`)
+
 	// kick off distributed programming
 	if (totalConnected === MAXCLIENTS) {
-		const begin = perfy.start('brute')
+		perfy.start('brute')
 		const sockets: socketIO.Socket[] = Object.values(io.sockets.sockets)
 		for (let i: number = 0; i < sockets.length; i++) {
 			const workerData: workerInfo = {

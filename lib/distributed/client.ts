@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
-import {getWordList, isReadable, workerInfo} from './shared'
-import xor, {decodeHex} from './crypto'
+import {getWordList, isReadable, workerInfo} from '../shared'
+import xor, {decodeHex} from '../crypto'
 
 // program vars
 const ADDR: string = process.argv[2] || 'http://localhost:5000'
@@ -11,7 +11,7 @@ const log = (...args) => console.log('> client', ...args)
 
 console.log(isReadable("THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG'S BACK"))
 // socket main loop
-socket.on('begin', (data: workerInfo) => {
+socket.on('begin', (data: workerInfo): void => {
 	log('begin event recieved')
 	const wordList: string[] = getWordList(data.num, data.size)
 	const decodedCT: string = decodeHex(data.ciphertext)

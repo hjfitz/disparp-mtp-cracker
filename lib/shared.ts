@@ -1,7 +1,7 @@
-import fs from 'fs'
-import path from 'path'
+import * as fs from 'fs'
+import * as path from 'path'
 
-const WORDFILE: string = path.join(__dirname, 'words_alpha.txt')
+const WORDFILE: string = path.join(process.cwd(), 'lib', 'words_alpha.txt')
 
 export interface workerInfo {
 	num: number;
@@ -19,9 +19,7 @@ export function getWordList(me: number, size: number): string[] {
 	const contents: string = fs.readFileSync(WORDFILE).toString()
 	// split so it's iterable
 	const splitByLine: string[] = contents.split('\n')
-
 	const fileLength: number = splitByLine.length
-
 	// [1] https://moodle.port.ac.uk/pluginfile.php/850990/mod_resource/content/23/week17-lab.html
 	const blockSize: number = Math.floor(fileLength / size)
 	const begin: number = me * blockSize

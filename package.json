@@ -4,9 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start:server": "ts-node server",
-    "start:client": "ts-node client",
-    "dev:server": "nodemon --exec 'ts-node' server"
+    "start:distributed-server": "ts-node lib/threaded/server",
+    "start:distributed-client": "ts-node lib/threaded/client",
+    "start:threaded": "node build/threaded/threaded"
   },
   "dependencies": {
     "express": "^4.16.4",

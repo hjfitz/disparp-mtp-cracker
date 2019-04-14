@@ -22,7 +22,7 @@ function xorStrings(text: string, key: string): string {
 	// split the string to loop over
 	const wordsplit: string[] = text.split('')
 	const keylen: number = key.length
-	const xorList = wordsplit.map((char: string, idx: number): string => {
+	const xorList: string[] = wordsplit.map((char: string, idx: number): string => {
 		// use mod so as to repeat the key
 		const keyChar: string = key[idx % keylen]
 		// xor individual char codes
