@@ -11,7 +11,6 @@ for (let i: number = 0; i < wordList.length; i++) {
 	const decoded: string = decodeHex(xor(decodedCT, candidate))
 	if (isReadable(decoded) && parentPort) {
 		parentPort.postMessage({text: decoded, key: candidate})
-		console.log({candidate, decoded})
 	}
 }
 

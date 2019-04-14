@@ -24,7 +24,7 @@ export function getWordList(me: number, size: number): string[] {
 	const blockSize: number = Math.floor(fileLength / size)
 	const begin: number = me * blockSize
 	const end: number = begin + blockSize
-	console.log({blockSize, begin, end})
+	// process.stdout.write(`size: ${blockSize}, begin, end})
 	const listSlice: string[] = splitByLine.slice(begin, end).map(word => word.replace(/\r/g, '').trim())
 	return listSlice
 }

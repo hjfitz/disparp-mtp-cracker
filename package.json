@@ -4,9 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start:distributed-server": "ts-node lib/threaded/server",
-    "start:distributed-client": "ts-node lib/threaded/client",
-    "start:threaded": "node build/threaded/threaded"
+    "start:distributed-server": "node build/distributed/server",
+    "start:distributed-client": "node build/distributed/client",
+    "start:threaded": "node --experimental-worker build/threaded/threaded",
+    "build": "tsc"
   },
   "dependencies": {
     "express": "^4.16.4",

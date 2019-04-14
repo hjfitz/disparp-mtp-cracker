@@ -26,7 +26,7 @@ io.on('connection', (socket: socketIO.Socket): void => {
 
 	// kick off distributed programming
 	if (totalConnected === MAXCLIENTS) {
-		perfy.start('brute')
+		const hrstart = process.hrtime()
 		const sockets: socketIO.Socket[] = Object.values(io.sockets.sockets)
 		for (let i: number = 0; i < sockets.length; i++) {
 			const workerData: workerInfo = {
@@ -37,15 +37,17 @@ io.on('connection', (socket: socketIO.Socket): void => {
 			sockets[i].emit('begin', workerData)
 		}
 		console.log('total clients reached, beginning distributed connection')
+		socket.on('candidate', (data): void => {
+			console.log(data)
+			if (data.text.trim() === TEXT.trim() && data.key.trim() === KEY.trim()) {
+				const end = process.hrtime(hrstart)
+				// console.log(end)
+				const ms = (end[0] * 1000) + (end[1] / 1000000)
+				console.log(`Execution time (hr): ${ms}ms`)
+				process.exit(0)
+			}
+		})
 	}
-	socket.on('candidate', (data): void => {
-		console.log(data)
-		if (data.text === TEXT && data.key === KEY) {
-			const result = perfy.end('brute')
-			console.log('took: ' + result.milliseconds + 'ms')
-			process.exit(0)
-		}
-	})
 })
 
 

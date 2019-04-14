@@ -24,6 +24,7 @@ socket.on('begin', (data: workerInfo): void => {
 		}
 	}
 	log('scan complete')
+	// process.exit(0)
 })
 
 log(`beginning session on ${ADDR}`)
