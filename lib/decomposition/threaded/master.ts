@@ -1,9 +1,8 @@
 import {Worker} from 'worker_threads'
 import * as path from 'path'
-import * as perfy from 'perfy'
 
-import {workerInfo} from '../shared'
-import xor, {decodeHex} from '../crypto'
+import {workerInfo} from '../../shared'
+import xor, {decodeHex} from '../../crypto'
 
 // program vars
 const MAXCLIENTS: number = parseInt(process.argv[2], 10) || 2
@@ -30,7 +29,6 @@ for (let i: number = 0; i < MAXCLIENTS; i++) {
 	worker.on('message', (data) => {
 		if (data.text === TEXT && data.key === KEY) {
 			const end = process.hrtime(hrstart)
-			// console.log(end)
 			const ms = (end[0] * 1000) + (end[1] / 1000000)
 			console.log(`Execution time (hr): ${ms}ms`)
 			process.exit(0)

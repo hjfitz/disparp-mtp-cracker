@@ -14,9 +14,10 @@ Only Node and NPM are required to use this program. The dictionary is given (alt
 0. Install all dependencies `npm install`
 1. Build the TypeScript source code to JS: `npm run build`
 2. Run the code:
-	* For the distributed version, stand up the server with `npm run start:distributed-server 2`. The number of clients required is the first argument - defaulting to 2.
-	* Stand up clients with `npm run start:distributed-client 192.168.0.12:5000`. The only argument defines where the server is hosted.
+	* For the distributed version, stand up the server with `npm run start:cluster-naster 2`. The number of clients required is the first argument - defaulting to 2.
+	* Stand up clients with `npm run start:cluster-client-client 192.168.0.12:5000`. The only argument defines where the server is hosted.
 	* For the parallel version, run `npm run start:threaded 2`. The only argument is the number of threads to spawn.
+	* To run the worker farm code, prepend the aforementioned commands with `farm-`, `npm run start:farm-cluster-worker` etc.
 
 ## Tech
 Both versions run the same way. Clients are invoked with arguments:
@@ -33,17 +34,4 @@ A websocket server waits for the desired amount of clients. Upon reaching this n
 Using `worker_threads`, threads are spawned according to the argument given to `threaded.js`. Worker threads are spawned with the `new Worker(workerfile, workerData)` constructor. Amount of threads, thread position and ciphertext is sent in workerData.
 
 ## Results
-
-### Distributed
-| Run | 1 Client (ms) | 2 Clients (ms) | 4 Clients (ms) |
-|-----|---------------|----------------|----------------|
-|  1  |      6533     |      3604      |      1787      |
-|  2  |      6730     |      3623      |      1846      |
-|  3  |      6529     |      3801      |      1754      |
-
-### Threaded
-| Run | 1 Thread (ms) | 2 Threads (ms) | 4 Threads (ms) | 8 Threads (ms) |
-|-----|---------------|----------------|----------------|----------------|
-|  1  |      5752     |      2898      |      1360      |      1167      |
-|  2  |      5985     |      3073      |      1327      |      1124      |
-|  3  |      5795     |      2871      |      1441      |      1136      |
+Available on [Google Sheets](https://docs.google.com/spreadsheets/d/1rfd0MSvlGD4TiAJzQ9l7tq3FgKl0P2Nm5BpdcP8GT0Q/edit#gid=1020168994)

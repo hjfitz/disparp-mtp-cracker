@@ -4,9 +4,12 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start:distributed-server": "node build/distributed/server",
-    "start:distributed-client": "node build/distributed/client",
-    "start:threaded": "node --experimental-worker build/threaded/threaded",
+    "start:cluster-worker": "node build/decomposition/distributed/master",
+    "start:cluster-client": "node build/decomposition/distributed/worker",
+    "start:farm-cluster-worker": "node build/farm/distributed/master",
+    "start:farm-cluster-client": "node build/farm/distributed/worker",
+    "start:threaded": "node --experimental-worker build/decomposition/threaded/master",
+    "start:farm-threaded": "node --experimental-worker build/farm/threaded/master",
     "build": "tsc"
   },
   "dependencies": {

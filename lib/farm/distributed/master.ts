@@ -1,11 +1,11 @@
 import http from 'http'
 import socketIO from 'socket.io'
-import * as perfy from 'perfy'
 
-import {workerInfo} from '../shared'
-import xor, {decodeHex} from '../crypto'
+import {workerInfo, getWordListFarm} from '../../shared'
+import xor, {decodeHex} from '../../crypto'
 
 const HTTPPORT: number = 5000
+const BLOCKSIZE: number = 65536
 const MAXCLIENTS: number = parseInt(process.argv[2], 10) || 2
 const TEXT: string = "THE QUICK BROWN FOX JUMPED OVER THE LAZY DOG'S BACK"
 const KEY: string = 'polyhaemic'
@@ -19,6 +19,8 @@ const io: socketIO.Server = socketIO(server, { path: '/', serveClient: false })
 
 console.log(`beginning distributed session expecting ${MAXCLIENTS} nodes`)
 
+let blockStart: number = 0
+
 io.on('connection', (socket: socketIO.Socket): void => {
 	console.log(`socket connected: ${socket.id}`)
 	const totalConnected: number = Object.keys(io.sockets.sockets).length
@@ -29,11 +31,15 @@ io.on('connection', (socket: socketIO.Socket): void => {
 		const hrstart = process.hrtime()
 		const sockets: socketIO.Socket[] = Object.values(io.sockets.sockets)
 		for (let i: number = 0; i < sockets.length; i++) {
-			const workerData: workerInfo = {
+			const wordList: string[] = getWordListFarm(blockStart, BLOCKSIZE)
+			blockStart += BLOCKSIZE
+			const workerData = {
 				num: i,
 				size: sockets.length,
 				ciphertext: CIPHERTEXT,
+				wordList,
 			}
+
 			sockets[i].emit('begin', workerData)
 		}
 		console.log('total clients reached, beginning distributed connection')
@@ -44,8 +50,16 @@ io.on('connection', (socket: socketIO.Socket): void => {
 				// console.log(end)
 				const ms = (end[0] * 1000) + (end[1] / 1000000)
 				console.log(`Execution time (hr): ${ms}ms`)
+				io.sockets.emit('die')
 				process.exit(0)
 			}
+		})
+
+		socket.on('next-list', () => {
+			console.log('emitting next list')
+			const wordList: string[] =  getWordListFarm(blockStart, BLOCKSIZE)
+			blockStart += BLOCKSIZE
+			socket.emit('list', wordList)
 		})
 	}
 })

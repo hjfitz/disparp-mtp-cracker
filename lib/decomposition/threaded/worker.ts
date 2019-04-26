@@ -1,6 +1,6 @@
 import {workerData, parentPort} from 'worker_threads'
-import {getWordList, isReadable} from '../shared'
-import xor, { decodeHex } from '../crypto';
+import {getWordList, isReadable} from '../../shared'
+import xor, { decodeHex } from '../../crypto';
 
 const {num, size, ciphertext} = workerData
 
